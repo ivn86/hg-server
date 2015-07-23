@@ -1,0 +1,19 @@
+---
+# tasks file for hg-server
+- name: Install hg
+  apt: pkg=mercurial-server,sudo state=installed update_cache=true
+- name: Create key catalog
+  file: path=/etc/ssh/keys state=directory
+- name: Create authorized_keys to hg.pub symlink
+  file: src=/var/lib/mercurial-server/.ssh/authorized_keys dest=/etc/ssh/keys/hg.pub state=link force=yes
+- name: Create authorized_keys to root.pub symlink
+  file: src=/root/.ssh/authorized_keys dest=/etc/ssh/keys/root.pub state=link force=yes
+- name: Copy my id_rsa.pub
+  copy: src=~/.ssh/id_rsa.pub dest=/etc/mercurial-server/keys/root/
+- name: Refresh auth
+  shell: sudo -u hg /usr/share/mercurial-server/refresh-auth
+- name: Update sshd_config
+  shell: sed -i 's/^#AuthorizedKeysFile.*/AuthorizedKeysFile\ \/etc\/ssh\/keys\/%u.pub/' /etc/ssh/sshd_config
+  notify:
+  - restart ssh
+ 

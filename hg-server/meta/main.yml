@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Ivan Zharenkov <ivan@zharenkov.ru>
+  description: Install and configure Mercurial server on Debian
+  company: "JSC KUZNETSOV"
+  license: BSD
+  min_ansible_version: 1.2
+  platforms:
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+  categories:
+  - development

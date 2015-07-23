@@ -1,0 +1,5 @@
+---
+# handlers file for hg-server
+- name: restart ssh
+  service: name=ssh state=restarted
+
